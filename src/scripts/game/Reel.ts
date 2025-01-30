@@ -2,6 +2,7 @@ import * as PIXI from "pixi.js";
 import { App } from "../system/App";
 import { Symbol } from "./Symbol";
 import { Tools } from "../system/Tools";
+import { MotionBlurFilter } from "pixi-filters";
 import { gsap } from "gsap";
 
 export class Reel {
@@ -42,27 +43,42 @@ export class Reel {
 		);
 	}
 
-	spin(duration: number, delay: number): void {
-		this.moveTo(this.reelContainer, duration, delay);
-	}
+	spin(duration: number, delay: number): Promise<void> {
+		let motionBlur = new MotionBlurFilter({
+			kernelSize: 25,
+			velocity: { x: 0, y: 1 },
+		});
+		this.reelContainer.filters = motionBlur;
 
-	moveTo(
-		position: PIXI.Container,
-		duration: number,
-		delay: number
-	): Promise<void> {
+		function motionBlurVelocity(progress: number): number {
+			const A = 50;
+			const mu = 0.5;
+			const sigma = 0.1;
+
+			return A * Math.exp(-((progress - mu) ** 2) / (2 * sigma ** 2));
+		}
+
 		return new Promise((resolve) => {
-			gsap.to(this.reelContainer, {
-				x: position.x,
+			const spinAnimation = gsap.to(this.reelContainer, {
+				x: this.reelContainer.x,
 				y:
-					position.y +
-					this.symbolSize * this.symbolsPerReel +
+					this.reelContainer.y +
+					this.symbolSize * this.symbolsPerReel * 4 +
 					(this.symbolSize / this.symbolPadding) *
-						this.symbolsPerReel,
+						this.symbolsPerReel *
+						4,
 				duration: duration,
 				delay: delay,
-				ease: "back.out(1.06)",
-				onComplete: resolve,
+				ease: "back.inOut(1.04)",
+				onUpdate: () => {
+					motionBlur.velocity.y = motionBlurVelocity(
+						spinAnimation.progress()
+					);
+				},
+				onComplete: () => {
+					this.reelContainer.filters = [];
+					resolve();
+				},
 			});
 		});
 	}

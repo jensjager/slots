@@ -31,8 +31,20 @@ export class Game extends Scene {
 		const reelsCount = 5;
 		const symbolsPerReel = 3;
 		const symbolSize = 175;
-		const symbolPadding = 10;
-		this.reels = new Reels(reelsCount, symbolsPerReel, symbolSize, symbolPadding);
+		const symbolPadding = 8;
+		this.reels = new Reels(
+			reelsCount,
+			symbolsPerReel,
+			symbolSize,
+			symbolPadding
+		);
+
+		this.reels.reelsContainer.x =
+			(window.innerWidth - this.reels.totalWidth) / 2 +
+			(symbolSize / this.reels.symbolPadding) *
+				(this.reels.reelsCount - 1);
+
+		this.reels.reelsContainer.y = window.innerHeight / 2 - symbolSize - 125;
 		this.container.addChild(this.reels.reelsContainer);
 	}
 
@@ -48,12 +60,10 @@ export class Game extends Scene {
 		this.spinButton.button.on("click", () => {
 			if (this.reels.spinning) {
 				console.log("Reels are spinning");
-
 				return;
 			}
 			console.log("Spin");
 
-			this.reels.spinning = true;
 			this.reels.spinReels().then(() => {
 				this.reels.spinning = false;
 			});

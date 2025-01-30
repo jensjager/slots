@@ -65,22 +65,23 @@ export class Reels {
 				i * symbolSize + (i * symbolSize) / this.symbolPadding;
 			this.reelsContainer.addChild(reel.reelContainer);
 		}
-
-		this.reelsContainer.x =
-			(window.innerWidth - this.totalWidth) / 2 + symbolSize / 2;
-
-		this.reelsContainer.y = window.innerHeight / 2 - this.totalHeight / 2;
 	}
 
 	spinReels(): Promise<void> {
+		if (this.spinning) return Promise.resolve();
+		this.spinning = true;
+
 		return new Promise((resolve) => {
 			let delay = 0;
 			this.reels.forEach((reel) => {
-				reel.spin(1, delay);
+				reel.spin(2, delay).then(() => {
+					if (reel === this.reels[this.reels.length - 1]) {
+						this.spinning = false;
+						resolve();
+					}
+				});
 				delay += 0.15;
 			});
-
-			setTimeout(resolve, delay * 2000);
 		});
 	}
 
