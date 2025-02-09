@@ -93,7 +93,7 @@ export class Game extends Scene {
 					App.config.paylines
 				);
 				if (wins.length > 0) {
-					this.reels.showWinLines(wins.map((win) => win.payline));
+					this.reels.showWinLines(wins.map((win) => win.payline), 2);
 					this.balance += wins.reduce(
 						(acc, win) => acc + win.win * 10,
 						0
