@@ -5,13 +5,16 @@ import { ScenesManager } from "./ScenesManager";
 import { EventEmitter } from "events";
 import { Config } from "../game/Config";
 require("gsap/dist/PixiPlugin");
+import gsap from "gsap";
+import { MotionPathPlugin } from "gsap/MotionPathPlugin";
+gsap.registerPlugin(MotionPathPlugin);
 
 class GameApplication extends EventEmitter {
 	public app!: Application;
 	public config!: Config;
 	private scenes!: ScenesManager;
 	private loader!: Loader;
-	public assets: any; // Specify a more precise type if known
+	public assets!: Record<string, PIXI.Texture>;
 
 	async run(config: Config): Promise<void> {
 		this.config = config;
