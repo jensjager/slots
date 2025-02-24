@@ -39,9 +39,17 @@ export class Game extends Scene {
 		const symbolsPerReel = 3;
 		/// -------------------------------------------------------------------------
 
-		const symbolSize = 175;
-		const symbolPadding = 20;
+		// const symbolSize = 125;
+		// const symbolPadding = 20;
 		const spinDistance = 10;
+
+		const reelsHeight = window.innerHeight * (3 / 4);
+		const symbolPaddingPercentage = 10;
+		const symbolSize =
+			(symbolPaddingPercentage * reelsHeight) /
+			((symbolPaddingPercentage + 1) * symbolsPerReel - 1);
+		const symbolPadding = symbolSize / symbolPaddingPercentage;
+
 		this.reels = new Reels(
 			reelsCount,
 			symbolsPerReel,
@@ -51,17 +59,16 @@ export class Game extends Scene {
 		);
 
 		this.reels.reelsContainer.x =
-			(window.innerWidth - this.reels.totalWidth) / 2 +
-			symbolPadding * (this.reels.reelsCount - 1);
+			(window.innerWidth + symbolSize - this.reels.totalWidth) / 2;
 
-		this.reels.reelsContainer.y = window.innerHeight / 2 - symbolSize - 125;
+		this.reels.reelsContainer.y = symbolSize / 2 + symbolPadding * 2;
 		this.container.addChild(this.reels.reelsContainer);
 	}
 
 	createSpinButton(): void {
 		this.spinButton = new SpinButton("spin", {
-			width: 125,
-			height: 125,
+			width: 100,
+			height: 100,
 		});
 		this.spinButton.setPosition(
 			window.innerWidth / 2,
@@ -93,7 +100,10 @@ export class Game extends Scene {
 					App.config.paylines
 				);
 				if (wins.length > 0) {
-					this.reels.showWinLines(wins.map((win) => win.payline), 2);
+					this.reels.showWinLines(
+						wins.map((win) => win.payline),
+						2
+					);
 					this.balance += wins.reduce(
 						(acc, win) => acc + win.win * 10,
 						0

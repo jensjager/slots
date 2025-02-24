@@ -1,8 +1,9 @@
 import * as PIXI from "pixi.js";
-import { App } from "../system/App";
+import { App } from "../../system/App";
 import gsap from "gsap";
 import { ColorOverlayFilter } from "pixi-filters";
 
+// DIFFERENT PAYLINE DESIGNS
 export class Paylines {
 	lines: PIXI.Graphics[] = [];
 	paylines = App.config.paylines;
@@ -19,7 +20,7 @@ export class Paylines {
 		this.symbolSize = symbolSize;
 		this.symbolPadding = symbolPadding;
 		this.createWinLines();
-		this.trail();
+		// this.trail();
 	}
 
 	trail() {

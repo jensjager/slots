@@ -2,7 +2,7 @@ import * as PIXI from "pixi.js";
 import { Reel } from "./Reel";
 import { Tools } from "../system/Tools";
 import { App } from "../system/App";
-import { Paylines } from "./Paylines";
+import { StaticPaylines } from "./paylines/StaticPaylines";
 
 export class Reels {
 	reelsContainer: PIXI.Container = new PIXI.Container();
@@ -18,6 +18,7 @@ export class Reels {
 	spinDistance: number;
 	winLines: PIXI.Graphics[];
 	winLineInterval: ReturnType<typeof setInterval> | null = null;
+	background: PIXI.Container = new PIXI.Container();
 
 	constructor(
 		reelsCount: number,
@@ -37,8 +38,32 @@ export class Reels {
 
 		this.createReels(reelsCount, symbolSize);
 		this.createMask(this.totalHeight, this.totalWidth);
+		this.createBackground();
+		this.reelsContainer.addChild(this.background);
 
 		this.winLines = this.createWinLines();
+	}
+
+	createBackground() {
+		this.background.setSize({
+			width: this.totalWidth,
+			height: this.totalHeight,
+		});
+		this.background.position = {
+			x: 0,
+			y: this.symbolSize - this.symbolPadding,
+		};
+		for (let i = 0; i < this.reelsCount; i++) {
+			const reelBackground = App.sprite("reelBackground");
+			reelBackground.anchor = 0.5;
+			reelBackground.width = this.symbolSize + this.symbolPadding;
+			reelBackground.height = this.totalHeight;
+			reelBackground.x =
+				reelBackground.width * i + this.symbolPadding / 2;
+			reelBackground.y = this.symbolPadding;
+			this.background.addChild(reelBackground);
+		}
+		this.background.zIndex = -1;
 	}
 
 	/**
@@ -81,7 +106,11 @@ export class Reels {
 				this.spinDistance
 			);
 			this.reels.push(reel);
-			reel.reelContainer.x = i * symbolSize + i * this.symbolPadding;
+			reel.reelContainer.x =
+				i * symbolSize +
+				i * this.symbolPadding +
+				this.symbolPadding / 2;
+			reel.reelContainer.y = this.symbolPadding;
 			this.reelsContainer.addChild(reel.reelContainer);
 		}
 	}
@@ -109,7 +138,9 @@ export class Reels {
 				App.config.symbols.size,
 				this.symbolsPerReel * this.spinDistance
 			);
-			const symbolsResult = newSymbols.slice(-this.symbolsPerReel);
+			const symbolsResult = newSymbols
+				.slice(-this.symbolsPerReel)
+				.reverse();
 			spinResult.push(symbolsResult);
 
 			reel.createSymbols(newSymbols, this.symbolsPerReel);
@@ -134,12 +165,12 @@ export class Reels {
 	 */
 	private createMask(height: number, width: number): void {
 		this.mask = new PIXI.Graphics();
-		this.mask.x = -(this.symbolSize * 0.5 + this.symbolPadding);
-		this.mask.y = -(
-			this.symbolSize * 0.5 +
-			this.symbolPadding * this.symbolsPerReel
-		);
-		this.mask.rect(0, 0, width, height).fill(0xffffff);
+		this.mask.x = -(this.symbolSize * 0.5);
+		this.mask.y = -(this.symbolSize / 2 + this.symbolPadding * 2);
+
+		this.mask
+			.rect(0, 0, width, height)
+			.fill({ color: 0xff0000, alpha: 0.5 });
 		this.reelsContainer.addChild(this.mask);
 		this.reelsContainer.mask = this.mask;
 	}
@@ -149,10 +180,12 @@ export class Reels {
 	 * @returns {PIXI.Graphics[]} Array of win lines
 	 */
 	createWinLines(): PIXI.Graphics[] {
-		const lines = new Paylines(
+		const lines = new StaticPaylines(
 			this.reelsContainer,
 			this.symbolSize,
-			this.symbolPadding
+			this.symbolPadding,
+			this.symbolsPerReel,
+			this.reelsCount
 		);
 		this.reelsContainer.addChild(...lines.lines);
 		lines.lines.forEach((line) => (line.visible = false));
@@ -174,8 +207,6 @@ export class Reels {
 		const toggleVisibility = (index: number) => {
 			this.winLines[index].visible = !this.winLines[index].visible;
 		};
-
-		this.winLines.forEach((line) => (line.visible = false));
 
 		const showNextLine = () => {
 			this.winLines.forEach((line) => (line.visible = false));
