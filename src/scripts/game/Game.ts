@@ -10,7 +10,7 @@ export class Game extends Scene {
 	bg: PIXI.Sprite = new PIXI.Sprite();
 	reels!: Reels;
 	spinButton!: SpinButton;
-	balance: number = 1000;
+	balance: number = 5000;
 	balanceText!: PIXI.Text;
 	spinDuration: number = 2;
 	spinReelDelay: number = 0.15;
