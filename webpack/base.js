@@ -9,7 +9,7 @@ module.exports = {
 	entry: "./src/scripts/index.ts",
 	output: {
 		filename: "bundle.js",
-		path: path.resolve(__dirname, "webpack/docs"),
+		path: path.resolve(__dirname, "docs"),
 		publicPath: "/slots/",
 	},
 	module: {
