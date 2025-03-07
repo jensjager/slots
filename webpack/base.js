@@ -8,9 +8,9 @@ module.exports = {
 	devtool: "eval-source-map",
 	entry: "./src/scripts/index.ts",
 	output: {
-		filename: "bundle.min.js",
-		path: path.resolve(__dirname, "docs"), // Output to "docs" for GitHub Pages
-		publicPath: "./", // Relative path to avoid issues
+		filename: "bundle.js",
+		path: path.resolve(__dirname, "webpack/docs"),
+		publicPath: "./slots/",
 	},
 	module: {
 		rules: [
