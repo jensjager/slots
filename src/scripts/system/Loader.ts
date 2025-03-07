@@ -11,7 +11,7 @@ export class Loader {
 
 		req.keys().forEach((name: string) => {
 			assets.push({
-				alias: name.split("/").reverse()[0].replace(".png", ""),
+				alias: name.split("/").reverse()[0].replace(/\.(png|jpe?g)$/, ""),
 				src: req(name).default,
 			});
 		});

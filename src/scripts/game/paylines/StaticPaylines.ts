@@ -30,9 +30,7 @@ export class StaticPaylines {
 		x: number;
 		y: number;
 	}[][] {
-		const { minX, minY } = this.reels.getLocalBounds();
-        console.log(this.reels.getLocalBounds());
-        
+		const { minX, minY } = this.reels.getLocalBounds();        
 
 		const lineHeights: number[] = [];
 
@@ -85,6 +83,7 @@ export class StaticPaylines {
 		this.paylines.forEach((_, index) => {
 			const path: { x: number; y: number }[] = paths[index];
 			const line = new PIXI.Graphics();
+			line.label = "Winline " + index;
 
 			line.moveTo(path[0].x, path[0].y);
 			for (let i = 1; i < path.length; i++) {

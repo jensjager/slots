@@ -1,5 +1,5 @@
 import * as PIXI from "pixi.js";
-import { Sprite, Application } from "pixi.js";
+import { Sprite, Application, Texture } from "pixi.js";
 import { Loader } from "./Loader";
 import { ScenesManager } from "./ScenesManager";
 import { EventEmitter } from "events";
@@ -34,6 +34,10 @@ class GameApplication extends EventEmitter {
 
 	sprite(key: string): Sprite {
 		return new Sprite(this.assets[key]);
+	}
+	
+	texture(key: string): Texture {		
+		return this.assets[key];
 	}
 
 	start(assets: any): void {

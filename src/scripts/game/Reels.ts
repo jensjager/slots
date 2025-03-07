@@ -40,6 +40,7 @@ export class Reels {
 		this.createMask(this.totalHeight, this.totalWidth);
 		this.createBackground();
 		this.reelsContainer.addChild(this.background);
+		this.reelsContainer.label = "Reels";
 
 		this.winLines = this.createWinLines();
 	}
@@ -53,6 +54,7 @@ export class Reels {
 			x: 0,
 			y: this.symbolSize - this.symbolPadding,
 		};
+		this.background.label = "Reels Background";
 		for (let i = 0; i < this.reelsCount; i++) {
 			const reelBackground = App.sprite("reelBackground");
 			reelBackground.anchor = 0.5;
@@ -61,6 +63,7 @@ export class Reels {
 			reelBackground.x =
 				reelBackground.width * i + this.symbolPadding / 2;
 			reelBackground.y = this.symbolPadding;
+			reelBackground.label = "Reel Background";
 			this.background.addChild(reelBackground);
 		}
 		this.background.zIndex = -1;
@@ -173,6 +176,7 @@ export class Reels {
 			.fill({ color: 0xff0000, alpha: 0.5 });
 		this.reelsContainer.addChild(this.mask);
 		this.reelsContainer.mask = this.mask;
+		this.mask.label = "Mask";
 	}
 
 	/**

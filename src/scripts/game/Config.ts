@@ -9,6 +9,7 @@ export interface Config {
 	symbols: Map<number, string>;
 	paytable: Map<number, { [key: number]: number }>;
 	paylines: number[][];
+	betAmounts: number[];
 	wins: { payline: number; symbol: number; win: number }[];
 }
 
@@ -54,5 +55,6 @@ export const Config: Config = {
 		[1, 0, 0, 0, 1],
 		[1, 2, 2, 2, 1],
 	],
+	betAmounts: [0.2, 0.5, 1, 2, 5, 10, 20, 50, 100],
 	wins: [],
 };

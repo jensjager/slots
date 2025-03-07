@@ -19,6 +19,7 @@ export class Reel {
 		spinDistance: number
 	) {
 		this.reelContainer = new PIXI.Container();
+		this.reelContainer.label = "Reel";
 		this.symbolSize = size;
 		this.symbolsPerReel = symbols.length;
 		this.symbolPadding = symbolPadding;
