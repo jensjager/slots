@@ -5,8 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"build": "webpack --config webpack/prod.js ",
-		"start": "webpack-dev-server --config webpack/base.js --open",
-		"deploy": "npm run build && gh-pages -d dist"
+		"start": "webpack-dev-server --config webpack/base.js --open"
 	},
 	"dependencies": {
 		"gsap": "^3.12.7",
