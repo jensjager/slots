@@ -94,7 +94,7 @@ export class Game extends Scene {
 				bounds.width,
 				window.innerHeight / 10
 			)
-			.fill("blue");
+			.fill("#702963");
 		const controlsContainer = new PIXI.Container();
 		controlsContainer.addChild(controlsBackground);
 
