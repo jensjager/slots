@@ -31,7 +31,7 @@ jobs:
         id: deployment
         uses: actions/upload-pages-artifact@v3
         with:
-          path: webpack/docs/
+          path: docs/
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -44,10 +44,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github-pages
-          path: webpack/docs/
+          path: docs/
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages  # Push to gh-pages branch
-          folder: webpack/docs/  # The built output directory
+          folder: docs/  # The built output directory

@@ -9,7 +9,7 @@ module.exports = {
 	entry: "./src/scripts/index.ts",
 	output: {
 		filename: "bundle.js",
-		path: path.resolve(__dirname, "docs"),
+		path: path.resolve(__dirname, "../docs"),
 		publicPath: "/slots/",
 	},
 	module: {
@@ -40,6 +40,7 @@ module.exports = {
 		}),
 		new HtmlWebpackPlugin({
 			template: "./index.html",
+			favicon: "./src/favicon.ico",
 		}),
 	],
 };
