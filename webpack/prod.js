@@ -6,7 +6,9 @@ const TerserPlugin = require("terser-webpack-plugin");
 module.exports = merge.merge(base, {
   mode: "production",
   output: {
-    filename: "bundle.js"
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "../docs"),
+    publicPath: "/" 
   },
   devtool: false,
   performance: {
