@@ -8,6 +8,7 @@ export class Symbol {
 	constructor(symbolName: string, sizes: { width: number; height: number }) {
 		this.symbolName = symbolName;
 		this.symbol = App.sprite(this.symbolName);
+		// this.symbol.scale.set();
 
 		this.symbol.width = sizes.width;
 		this.symbol.height = sizes.height;

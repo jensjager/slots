@@ -21,15 +21,15 @@ export const Config: Config = {
 		Game: Game,
 	},
 	symbols: new Map<number, string>([
-		[1, "apple"],
-		[2, "banana"],
-		[3, "blueberry"],
-		[4, "cherry"],
-		[5, "grape"],
-		[6, "orange"],
-		[7, "raspberry"],
-		[8, "watermelon"],
-		[9, "gem"],
+		[1, "letterJ"],
+		[2, "letterQ"],
+		[3, "letterK"],
+		[4, "letterA"],
+		[5, "asteroid"],
+		[6, "greenPlanet"],
+		[7, "bluePlanet"],
+		[8, "purplePlanet"],
+		[9, "redPlanet"],
 		[10, "wild"],
 	]),
 	paytable: new Map<number, { [key: number]: number }>([
@@ -42,7 +42,7 @@ export const Config: Config = {
 		[7, { 3: 5.0, 4: 10.0, 5: 25.0 }], // Raspberry: 5x, 10x, 25x
 		[8, { 3: 10.0, 4: 20.0, 5: 50.0 }], // Watermelon: 10x, 20x, 50x
 		[9, { 3: 25.0, 4: 50.0, 5: 100.0 }], // Gem: 25x, 50x, 100x
-		[10, { 3: 5.0, 4: 10.0, 5: 25.0 }], // Wild: 0x, 0x, 0x
+		[10, { 3: 25.0, 4: 50.0, 5: 100.0 }], // Wild: 0x, 0x, 0x
 	]),
 	paylines: [
 		[1, 1, 1, 1, 1],

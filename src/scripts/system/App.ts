@@ -20,7 +20,11 @@ class GameApplication extends EventEmitter {
 		this.config = config;
 		this.app = new Application();
 
-		await this.app.init({ resizeTo: window });
+		await this.app.init({
+			resizeTo: window,
+			resolution: window.devicePixelRatio,
+			autoDensity: true,
+		});
 
 		document.body.appendChild(this.app.canvas);
 
@@ -35,8 +39,8 @@ class GameApplication extends EventEmitter {
 	sprite(key: string): Sprite {
 		return new Sprite(this.assets[key]);
 	}
-	
-	texture(key: string): Texture {		
+
+	texture(key: string): Texture {
 		return this.assets[key];
 	}
 

@@ -77,7 +77,7 @@ export class Game extends Scene {
 			bounds.maxX - bounds.minX + 2 * borderSize,
 			bounds.maxY - bounds.minY + 2 * borderSize
 		);
-		border.fill({ color: "#702963" });
+		border.fill({ color: "#79166f" });
 
 		this.container.addChild(border);
 		this.container.addChild(this.reels.reelsContainer);
@@ -89,12 +89,12 @@ export class Game extends Scene {
 		controlsBackground.label = "Controls Background";
 		controlsBackground
 			.rect(
-				bounds.minX,
-				bounds.maxY + 20,
-				bounds.width,
+				bounds.minX - 10,
+				bounds.maxY,
+				bounds.width + 20,
 				window.innerHeight / 10
 			)
-			.fill("#702963");
+			.fill("#79166f");
 		const controlsContainer = new PIXI.Container();
 		controlsContainer.addChild(controlsBackground);
 
@@ -115,10 +115,10 @@ export class Game extends Scene {
 		controlsContainer: PIXI.Container
 	): void {
 		this.spinButton = new SpinButton("spin_default", "spin_pressed", {
-			width: 100,
-			height: 100,
+			width: this.reels.symbolSize,
+			height: this.reels.symbolSize,
 		});
-		this.spinButton.setPosition(bounds.maxX + 20, bounds.maxY + 20);
+		this.spinButton.setPosition(bounds.maxX + 10, bounds.maxY + 20);
 		this.spinButton.button.on("click", () => {
 			if (this.reels.spinning) {
 				console.log("Reels are spinning");

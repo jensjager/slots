@@ -91,7 +91,7 @@ export class StaticPaylines {
 			}
 			line.stroke({
 				width: 15,
-				color: "#FFD700",
+				color: "#79166f",
 			});
 
 			this.lines.push(line);
