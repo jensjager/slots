@@ -7,6 +7,11 @@ module.exports = {
 	mode: "development",
 	devtool: "eval-source-map",
 	entry: "./src/scripts/index.ts",
+	output: {
+		filename: "bundle.js",
+		path: path.resolve(__dirname, "docs"),
+		publicPath: "/slots/",
+	},
 	module: {
 		rules: [
 			{
