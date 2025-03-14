@@ -8,7 +8,7 @@ module.exports = merge.merge(base, {
   output: {
     filename: "bundle.js",
     path: path.resolve(__dirname, "../docs"),
-    publicPath: "/" 
+    publicPath: "/slots/" 
   },
   devtool: false,
   performance: {

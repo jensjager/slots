@@ -27,10 +27,14 @@ jobs:
       - name: Build Project
         run: npm run build  # Runs Webpack build
 
+      - name: Ensure docs folder exists
+        run: mkdir -p docs
+
       - name: Upload static files as artifact
         id: deployment
         uses: actions/upload-pages-artifact@v3
         with:
+          name: build-output
           path: docs/
   deploy:
     needs: build
@@ -43,7 +47,7 @@ jobs:
       - name: Download built files
         uses: actions/download-artifact@v4
         with:
-          name: github-pages
+          name: build-output
           path: docs/
 
       - name: Deploy to GitHub Pages
