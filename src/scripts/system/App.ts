@@ -15,10 +15,12 @@ class GameApplication extends EventEmitter {
 	private scenes!: ScenesManager;
 	private loader!: Loader;
 	public assets!: Record<string, PIXI.Texture>;
+	public isMobile!: boolean;
 
 	async run(config: Config): Promise<void> {
 		this.config = config;
 		this.app = new Application();
+		this.isMobile = window.innerHeight > window.innerWidth;
 
 		await this.app.init({
 			resizeTo: window,

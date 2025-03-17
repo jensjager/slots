@@ -30,8 +30,11 @@ export class Game extends Scene {
 
 	createBackground(): void {
 		this.bg = App.sprite("bg");
-		this.bg.width = window.innerWidth;
-		this.bg.height = window.innerHeight;
+
+		this.bg.anchor.set(0.5);
+		this.bg.y = window.innerHeight / 2;
+		this.bg.x = window.innerWidth / 2;
+		this.bg.scale.set(window.innerHeight / this.bg.texture.height);
 		this.bg.label = "Background";
 		this.container.addChild(this.bg);
 	}
@@ -49,9 +52,14 @@ export class Game extends Scene {
 
 		const reelsHeight = window.innerHeight * (3 / 4);
 		const symbolPaddingPercentage = 10;
-		const symbolSize =
-			(symbolPaddingPercentage * reelsHeight) /
-			((symbolPaddingPercentage + 1) * symbolsPerReel - 1);
+		if (App.isMobile) {
+			var symbolSizeVar = window.innerWidth / (reelsCount + 1);
+		} else {
+			var symbolSizeVar =
+				(symbolPaddingPercentage * reelsHeight) /
+				((symbolPaddingPercentage + 1) * symbolsPerReel - 1);
+		}
+		const symbolSize = symbolSizeVar;
 		const symbolPadding = symbolSize / symbolPaddingPercentage;
 
 		this.reels = new Reels(
@@ -63,7 +71,7 @@ export class Game extends Scene {
 		);
 
 		this.reels.reelsContainer.x =
-			(window.innerWidth + symbolSize - this.reels.totalWidth) / 2;
+			(window.innerWidth + symbolSize + 5 - this.reels.totalWidth) / 2;
 
 		this.reels.reelsContainer.y =
 			symbolSize / 2 + symbolPadding * 2 + borderSize;
@@ -118,8 +126,11 @@ export class Game extends Scene {
 			width: this.reels.symbolSize,
 			height: this.reels.symbolSize,
 		});
-		this.spinButton.setPosition(bounds.maxX + 10, bounds.maxY + 20);
-		this.spinButton.button.on("click", () => {
+		this.spinButton.setPosition(
+			bounds.maxX + (App.isMobile ? -25 : 10),
+			bounds.maxY + (App.isMobile ? 40 : 20)
+		);
+		this.spinButton.button.on("pointertap", () => {
 			if (this.reels.spinning) {
 				console.log("Reels are spinning");
 				return;
@@ -184,7 +195,7 @@ export class Game extends Scene {
 	): void {
 		this.balanceText = new PIXI.Text({
 			text: `Balance: ${this.balance}`,
-			style: { fontSize: 24, fill: 0x000000 },
+			style: { fontSize: App.isMobile ? 16 : 24, fill: 0x000000 },
 		});
 		this.balanceText.label = "Balance";
 		this.balanceText.anchor.set(0.5);
@@ -198,11 +209,11 @@ export class Game extends Scene {
 		bounds: PIXI.Bounds,
 		controlsContainer: PIXI.Container
 	): void {
-		const padding = 75;
+		const padding = App.isMobile ? 30 : 75;
 		const decrease = App.sprite("minus");
 		decrease.label = "Increase Bet";
 		decrease.anchor.set(0.5);
-		decrease.setSize(50);
+		decrease.setSize(App.isMobile ? 25 : 50);
 		decrease.x = window.innerWidth / 2 + this.reels.symbolSize / 2;
 		decrease.y = bounds.minY + bounds.height / 2;
 		decrease.cursor = "pointer";
@@ -214,7 +225,7 @@ export class Game extends Scene {
 		const increase = App.sprite("plus");
 		increase.label = "Increase Bet";
 		increase.anchor.set(0.5);
-		increase.setSize(50);
+		increase.setSize(App.isMobile ? 25 : 50);
 		increase.x =
 			window.innerWidth / 2 + this.reels.symbolSize / 2 + padding * 2;
 		increase.y = bounds.minY + bounds.height / 2;
@@ -226,7 +237,7 @@ export class Game extends Scene {
 
 		this.betSizeText = new PIXI.Text({
 			text: this.betSize,
-			style: { fontSize: 24, fill: 0x000000 },
+			style: { fontSize: App.isMobile ? 16 : 24, fill: 0x000000 },
 		});
 		this.betSizeText.label = "Bet Amount";
 		this.betSizeText.anchor.set(0.5);
