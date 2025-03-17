@@ -73,8 +73,9 @@ export class Game extends Scene {
 		this.reels.reelsContainer.x =
 			(window.innerWidth + symbolSize + 5 - this.reels.totalWidth) / 2;
 
-		this.reels.reelsContainer.y =
-			symbolSize / 2 + symbolPadding * 2 + borderSize;
+		this.reels.reelsContainer.y = App.isMobile
+			? (window.innerHeight - this.reels.totalHeight) / 2
+			: symbolSize / 2 + symbolPadding * 2 + borderSize;
 
 		const border = new PIXI.Graphics();
 		border.label = "Reels Border";
