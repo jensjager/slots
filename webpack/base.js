@@ -45,7 +45,7 @@ module.exports = {
 				"Content-Security-Policy": {
 					"http-equiv": "Content-Security-Policy",
 					content:
-						"default-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-src 'none'; object-src 'none'; child-src 'none'; form-action 'self';",
+						"default-src 'none'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' data:; frame-src 'none'; object-src 'none'; form-action 'self'; worker-src 'self' blob:;",
 				},
 			},
 		}),
