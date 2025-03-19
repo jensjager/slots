@@ -17,6 +17,16 @@ export class Game extends Scene {
 	betSize: number = Config.betAmounts[0];
 	betSizeText!: PIXI.Text;
 
+	spinDistance = 10;
+	borderSize = 10;
+	reelsHeight = window.innerHeight * (3 / 4);
+	symbolPaddingPercentage = 10;
+	baseFontSize = 48;
+	fontSize =
+		this.baseFontSize *
+		Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+	mobileFontSize = this.fontSize * 2;
+
 	constructor() {
 		super();
 		this.create();
@@ -44,30 +54,26 @@ export class Game extends Scene {
 		const reelsCount = 5;
 		const symbolsPerReel = 3;
 		/// -------------------------------------------------------------------------
-
-		// const symbolSize = 125;
-		// const symbolPadding = 20;
-		const spinDistance = 10;
-		const borderSize = 10;
-
-		const reelsHeight = window.innerHeight * (3 / 4);
-		const symbolPaddingPercentage = 10;
+		// const spinDistance = 10;
+		// const borderSize = 10;
+		// const reelsHeight = window.innerHeight * (3 / 4);
+		// const symbolPaddingPercentage = 10;
 		if (App.isMobile) {
 			var symbolSizeVar = window.innerWidth / (reelsCount + 1);
 		} else {
 			var symbolSizeVar =
-				(symbolPaddingPercentage * reelsHeight) /
-				((symbolPaddingPercentage + 1) * symbolsPerReel - 1);
+				(this.symbolPaddingPercentage * this.reelsHeight) /
+				((this.symbolPaddingPercentage + 1) * symbolsPerReel - 1);
 		}
 		const symbolSize = symbolSizeVar;
-		const symbolPadding = symbolSize / symbolPaddingPercentage;
+		const symbolPadding = symbolSize / this.symbolPaddingPercentage;
 
 		this.reels = new Reels(
 			reelsCount,
 			symbolsPerReel,
 			symbolSize,
 			symbolPadding,
-			spinDistance
+			this.spinDistance
 		);
 
 		this.reels.reelsContainer.x =
@@ -75,16 +81,16 @@ export class Game extends Scene {
 
 		this.reels.reelsContainer.y = App.isMobile
 			? (window.innerHeight - this.reels.totalHeight) / 2
-			: symbolSize / 2 + symbolPadding * 2 + borderSize;
+			: symbolSize / 2 + symbolPadding * 2 + this.borderSize;
 
 		const border = new PIXI.Graphics();
 		border.label = "Reels Border";
 		let bounds = this.reels.reelsContainer.getBounds();
 		border.rect(
-			bounds.minX - borderSize,
-			bounds.minY - borderSize,
-			bounds.maxX - bounds.minX + 2 * borderSize,
-			bounds.maxY - bounds.minY + 2 * borderSize
+			bounds.minX - this.borderSize,
+			bounds.minY - this.borderSize,
+			bounds.maxX - bounds.minX + 2 * this.borderSize,
+			bounds.maxY - bounds.minY + 2 * this.borderSize
 		);
 		border.fill({ color: "#79166f" });
 
@@ -196,7 +202,10 @@ export class Game extends Scene {
 	): void {
 		this.balanceText = new PIXI.Text({
 			text: `Balance: ${this.balance}`,
-			style: { fontSize: App.isMobile ? 16 : 24, fill: 0x000000 },
+			style: {
+				fontSize: App.isMobile ? this.mobileFontSize : this.fontSize,
+				fill: 0x000000,
+			},
 		});
 		this.balanceText.label = "Balance";
 		this.balanceText.anchor.set(0.5);
@@ -210,11 +219,13 @@ export class Game extends Scene {
 		bounds: PIXI.Bounds,
 		controlsContainer: PIXI.Container
 	): void {
-		const padding = App.isMobile ? 30 : 75;
+		const padding = App.isMobile
+			? this.mobileFontSize * 2
+			: this.fontSize * 2;
 		const decrease = App.sprite("minus");
 		decrease.label = "Increase Bet";
 		decrease.anchor.set(0.5);
-		decrease.setSize(App.isMobile ? 25 : 50);
+		decrease.setSize(App.isMobile ? this.mobileFontSize : this.fontSize);
 		decrease.x = window.innerWidth / 2 + this.reels.symbolSize / 2;
 		decrease.y = bounds.minY + bounds.height / 2;
 		decrease.cursor = "pointer";
@@ -226,7 +237,7 @@ export class Game extends Scene {
 		const increase = App.sprite("plus");
 		increase.label = "Increase Bet";
 		increase.anchor.set(0.5);
-		increase.setSize(App.isMobile ? 25 : 50);
+		increase.setSize(App.isMobile ? this.mobileFontSize : this.fontSize);
 		increase.x =
 			window.innerWidth / 2 + this.reels.symbolSize / 2 + padding * 2;
 		increase.y = bounds.minY + bounds.height / 2;
@@ -238,7 +249,10 @@ export class Game extends Scene {
 
 		this.betSizeText = new PIXI.Text({
 			text: this.betSize,
-			style: { fontSize: App.isMobile ? 16 : 24, fill: 0x000000 },
+			style: {
+				fontSize: App.isMobile ? this.mobileFontSize : this.fontSize,
+				fill: 0x000000,
+			},
 		});
 		this.betSizeText.label = "Bet Amount";
 		this.betSizeText.anchor.set(0.5);
